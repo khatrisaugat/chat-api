@@ -21,7 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+
     ];
+    public function photo(){
+        return $this->belongsTo(Photo::class,'photo_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

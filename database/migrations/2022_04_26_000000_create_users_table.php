@@ -19,8 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->bigInteger('photo_id')->unsigned();
             $table->rememberToken();
             $table->timestamps();
+        });
+        Schema::table('users',function(Blueprint $table){
+            $table->foreign('photo_id')->references('id')->on('photos');
         });
     }
 

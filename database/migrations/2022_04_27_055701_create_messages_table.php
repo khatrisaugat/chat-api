@@ -17,12 +17,14 @@ class CreateMessagesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('text');
-            $table->boolean('unread');
-            $table->boolean('isLiked');
+            $table->boolean('unread')->default(1);
+            $table->boolean('isLiked')->default(0);
             $table->bigInteger('room_id')->unsigned();
+            $table->bigInteger('sender_id')->unsigned();
         });
         Schema::table('messages',function(Blueprint $table){
             $table->foreign('room_id')->references('id')->on('rooms');
+            $table->foreign('sender_id')->references('id')->on('users');
         });
     }
 

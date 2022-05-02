@@ -42,8 +42,8 @@ class MessageController extends Controller
             'sender_id'=>'required'
         ]);
         //inserting message
-        $message=Message::create($request->all());
-        return $message;
+        $message=Message::insert($request->all());
+        return $request->all();
     }
 
     /**
@@ -54,7 +54,7 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -77,7 +77,9 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $message=Message::find($id);
+        $message->update($request->all());
+        return $message;
     }
 
     /**
@@ -88,6 +90,6 @@ class MessageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Message::destroy($id);
     }
 }

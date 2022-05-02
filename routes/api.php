@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -29,6 +30,16 @@ Route::put('/users/{id}',[UserController::class,'update']);
 Route::get('/rooms',[RoomController::class,'index']);
 Route::post('/rooms',[RoomController::class,'store']);
 Route::delete('/rooms/{id}',[RoomController::class,'destroy']);
+Route::get('/rooms/{id}',[RoomController::class,'show']);
+
+//Messages
+Route::post('/messages',[MessageController::class,'store']);
+Route::put('/messages/{id}',[MessageController::class,'update']);
+Route::delete('/messages/{id}',[MessageController::class,'destroy']);
+
+
+
+
 
 
 

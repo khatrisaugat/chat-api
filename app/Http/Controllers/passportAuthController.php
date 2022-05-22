@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 class passportAuthController extends Controller
 {
     /**
      * handle user registration request
      */
-    public function registerUserExample(Request $request){
+    public function registerUser(Request $request){
         $this->validate($request,[
             'name'=>'required',
             'email'=>'required|email|unique:users',
@@ -20,38 +21,33 @@ class passportAuthController extends Controller
             'password'=>bcrypt($request->password)
         ]);
 
-        $access_token_example = $user->createToken('PassportExample@Section.io')->accessToken;
+        $access_token = $user->createToken('authToken')->accessToken;
         //return the access token we generated in the above step
-        return response()->json(['token'=>$access_token_example],200);
+        return response()->json(['user'=>$user,'token'=>$access_token],200);
         // return ["success"=>"user deleted successfully"];
     }
 
     /**
      * login user to our application
      */
-    public function loginUserExample(Request $request){
+    public function loginUser(Request $request){
         $login_credentials=[
             'email'=>$request->email,
             'password'=>$request->password,
         ];
-        if(auth()->attempt($login_credentials)){
-            //generate the token for the user
-            $user_login_token= auth()->user()->createToken('PassportExample@Section.io')->accessToken;
-            //now return this token on success login attempt
-            return response()->json(['token' => $user_login_token], 200);
+        if(!Auth::attempt($login_credentials)){
+            return response()->json(['error'=>"Login Credentials incorrect"]);
         }
-        else{
-            //wrong login credentials, return, user not authorised to our system, return error code 401
-            return response()->json(['error' => 'UnAuthorised Access'], 401);
-        }
+        $user_login_token=Auth::user()->createToken('authToken')->accessToken;
+        return response()->json(['user'=>Auth::user(),'token'=>$user_login_token]);
     }
 
     /**
      * This method returns authenticated user details
      */
-    public function authenticatedUserDetails(){
-        //returns details
-        return response()->json(['authenticated-user' => auth()->user()], 200);
-    }
+    // public function authenticatedUserDetails(){
+    //     //returns details
+    //     return response()->json(['authenticated-user' => ], 200);
+    // }
 }
 

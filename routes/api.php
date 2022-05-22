@@ -21,32 +21,41 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::post('/users',[UserController::class,'store']);
-Route::get('/users',[UserController::class,'index']);
-Route::delete('/users/{id}',[UserController::class,'destroy']);
-Route::get('/users/{id}',[UserController::class,'show']);
-Route::put('/users/{id}',[UserController::class,'update']);
 
-//rooms
-Route::get('/rooms',[RoomController::class,'index']);
-Route::post('/rooms',[RoomController::class,'store']);
-Route::delete('/rooms/{id}',[RoomController::class,'destroy']);
-Route::get('/rooms/{id}',[RoomController::class,'show']);
 
-//Messages
-Route::post('/messages',[MessageController::class,'store']);
-Route::put('/messages/{id}',[MessageController::class,'update']);
-Route::delete('/messages/{id}',[MessageController::class,'destroy']);
+
 
 
 //passport
-Route::post('register',[passportAuthController::class,'registerUserExample']);
-Route::post('login',[passportAuthController::class,'loginUserExample']);
+Route::post('register',[passportAuthController::class,'registerUser']);
+Route::post('login',[passportAuthController::class,'loginUser']);
 //add this middleware to ensure that every request is authenticated
 Route::middleware('auth:api')->group(function(){
-    Route::get('user', [passportAuthController::class,'authenticatedUserDetails']);
-});
+    //users
+    Route::post('/users',[UserController::class,'store']);
+    Route::get('/users',[UserController::class,'index']);
+    Route::delete('/users/{id}',[UserController::class,'destroy']);
+    Route::get('/users/{id}',[UserController::class,'show']);
+    Route::put('/users/{id}',[UserController::class,'update']);
+    //rooms
+    Route::get('/rooms',[RoomController::class,'index']);
+    Route::post('/rooms',[RoomController::class,'store']);
+    Route::delete('/rooms/{id}',[RoomController::class,'destroy']);
+    Route::get('/rooms/{id}',[RoomController::class,'show']);
 
+    //Messages
+    Route::post('/messages',[MessageController::class,'store']);
+    Route::put('/messages/{id}',[MessageController::class,'update']);
+    Route::delete('/messages/{id}',[MessageController::class,'destroy']);
+});
+// Route::middleware('auth:api')->get('/user',[passportAuthController::class,'authenticatedUserDetails']);
+// Route::prefix('/users')->group(function(){
+//     Route::post('/',[UserController::class,'store']);
+//     Route::get('/',[UserController::class,'index']);
+//     Route::delete('/{id}',[UserController::class,'destroy']);
+//     Route::get('/{id}',[UserController::class,'show'])->middleware('auth:api');
+//     Route::put('/users/{id}',[UserController::class,'update']);
+// });
 
 
 

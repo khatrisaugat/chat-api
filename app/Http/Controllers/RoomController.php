@@ -47,9 +47,11 @@ class RoomController extends Controller
 
     }
     public function show($id){
-        $messages=Message::where('room_id',"=",$id)
-                                    ->join('users','users.id','=','messages.sender_id')
-                                    ->select('users.name','users.email','users.photo_id','messages.*')
+        $messages=Message::where('messages.room_id',"=",$id)
+                                    // ->join('users','users.id','=','messages.sender_id')
+                                    ->join('rooms','rooms.id','=','messages.room_id')
+                                    ->join('room_receivers','room_receivers.room_id','=','messages.room_id')
+                                    ->select('messages.*','room_receivers.receiver_id','rooms.name','rooms.creator_id')
                                     ->get();
         return $messages;
     }

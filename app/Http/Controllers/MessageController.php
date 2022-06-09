@@ -96,7 +96,7 @@ class MessageController extends Controller
     public function getHomeScreenMesssages(){
         $messages=Message::join('rooms','messages.room_id','=','rooms.id')
                             ->join('room_receivers','messages.room_id','=','room_receivers.room_id')
-                            ->select('messages.*','rooms.name','rooms.creator_id','room_receivers.receiver_id')
+                            ->select('messages.*','rooms.name as room_name','rooms.creator_id','room_receivers.receiver_id')
                             ->whereIn('messages.id',function($query){
                                 $query->select(Message::raw('Max(id) as id'))
                                         ->from('messages')

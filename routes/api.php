@@ -47,6 +47,9 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/messages',[MessageController::class,'store']);
     Route::put('/messages/{id}',[MessageController::class,'update']);
     Route::delete('/messages/{id}',[MessageController::class,'destroy']);
+    //get home screen messages
+    Route::get('/messages/getHomeScreenMesssages',[MessageController::class,'getHomeScreenMesssages']);
+
 });
 // Route::middleware('auth:api')->get('/user',[passportAuthController::class,'authenticatedUserDetails']);
 // Route::prefix('/users')->group(function(){

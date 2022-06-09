@@ -92,4 +92,26 @@ class MessageController extends Controller
     {
         return Message::destroy($id);
     }
+
+    public function getHomeScreenMesssages(){
+        $messages=Message::join('rooms','messages.room_id','=','rooms.id')
+                            ->join('room_receivers','messages.room_id','=','room_receivers.room_id')
+                            ->select('messages.*','rooms.name','rooms.creator_id','room_receivers.receiver_id')
+                            ->whereIn('messages.id',function($query){
+                                $query->select(Message::raw('Max(id) as id'))
+                                        ->from('messages')
+                                        ->groupBy('room_id')
+                                        ;
+                            })
+                            ->where(function($query){
+                                $query->where('room_receivers.receiver_id','=',auth()->user()->id)
+                                        ->orWhere('rooms.creator_id','=',auth()->user()->id);
+                            })
+                            // ->where('rooms.creator_id','=',auth()->user()->id)
+                            // ->orWhere('room_receivers.receiver_id','=',auth()->user()->id)
+                            ->get();
+                            // ->toSql();
+        // print($messages);
+        return $messages;
+    }
 }

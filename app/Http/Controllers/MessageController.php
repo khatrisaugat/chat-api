@@ -114,4 +114,21 @@ class MessageController extends Controller
         // print($messages);
         return $messages;
     }
+    //update message status to read
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function markAsRead(Request $request,$id){
+        $message=Message::select('*')
+                            ->where('room_id','=',$id)
+                            ->where('sender_id','!=',auth()->user()->id)
+                            ->update($request->all());
+        // $message->update($request->all());
+        // update(['unread'=>0])
+        // ->where('room_id','=',$id);
+        return $message;
+    }
 }

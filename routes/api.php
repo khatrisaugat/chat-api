@@ -49,6 +49,8 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/messages/{id}',[MessageController::class,'destroy']);
     //get home screen messages
     Route::get('/messages/getHomeScreenMesssages',[MessageController::class,'getHomeScreenMesssages']);
+    //mark message as read
+    Route::put('/messages/{id}/markAsRead',[MessageController::class,'markAsRead']);
 
 });
 // Route::middleware('auth:api')->get('/user',[passportAuthController::class,'authenticatedUserDetails']);
